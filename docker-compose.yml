@@ -1,0 +1,31 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/var/www/html
+    environment:
+      - DB_CONNECTION=mysql
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=laravelChallange
+      - DB_USERNAME=root
+      - DB_PASSWORD=E5T48SGr04a@
+  db:
+    image: mysql:8.0
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_DATABASE=laravelChallange
+      - MYSQL_ROOT_PASSWORD=E5T48SGr04a@
+  web:
+    image: nginx:latest
+    ports:
+      - 8000:80
+    volumes:
+      - .:/var/www/html
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
